@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form </title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-top: 10px;
+        }
+
+        input {
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Fill out this form</h1>
+        <form id="dataForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <button type="submit">Submit</button>
+        </form>
+        <div id="result"></div>
+    </div>
+    <script>
+        document.getElementById('dataForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form from submitting the traditional way
+
+            // Fetch IP address using ipify API
+            fetch('https://api.ipify.org?format=json')   // Enter Your API Key
+                .then(response => response.json())
+                .then(data => {
+                    const userIp = data.ip;
+
+                
+                    const formData = new FormData(this);
+                    const name = formData.get('name');
+                    const email = formData.get('email');
+
+                    // Display result
+                    document.getElementById('result').innerText = `Form submitted successfully! Your IP is: ${userIp}`;
+                })
+                .catch(error => {
+                    console.error('Error fetching IP:', error);
+                    document.getElementById('result').innerText = 'Failed to fetch IP address.';
+                });
+        });
+    </script>
+</body>
+</html>
